@@ -3,11 +3,13 @@
 DEBIAN_FRONTEND=noninteractive
 
 # Clone Upstream
-mkdir -p ./src-pkg-name
-cp -rvf ./debian ./src-pkg-name/
-cd ./src-pkg-name/
+git clone https://github.com/KhronosGroup/Vulkan-Loader.git
+cd Vulkan-Loader
+git checkout v1.3.264
+cp -rvf ../debian ./
 
 # Get build deps
+apt-get update
 apt-get build-dep ./ -y
 
 # Build package

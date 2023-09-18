@@ -1,80 +1,58 @@
-#! /usr/bin/make -f
+#!/usr/bin/make -f
 
-## See debhelper(7) (uncomment to enable).
-## Output every command that modifies files on the build system.
-export DH_VERBOSE = 1
+# see EXAMPLES in dpkg-buildflags(1) and read /usr/share/dpkg/*
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+include /usr/share/dpkg/pkg-info.mk
 
-## === Set paths env vars ===
-
-## Source directory, called upon by $(srcdir)
-srcdir = $(shell debian/scripts/get_pwd.sh)
-## The Root of package number one, called upon by $(pkgdir1)
-pkgdir1 = $(srcdir)/debian/pkgdir1
-## The Root of package number two, you can add as many of these as you like
-pkgdir2 = $(srcdir)/debian/pkgdir2
-
-## If building a singular package you can remove the number, and as you guessed you call upon it with $(pkgdir)
-# pkgdir = $(srcdir)/debian/pkgdir
-
-## === End end of region ===
-
-## === the chain of command ===
-## debuild runs a chain of dh functions in the following order:
-## dh_testdir
-## dh_clean
-## dh_auto_clean
-## dh_update_autotools_config
-## dh_autoreconf
-## dh_auto_configure
-## dh_prep
-## dh_build
-## dh_auto_build
-## dh_install
-## dh_auto_install
-## dh_installdocs
-## dh_installchangelogs
-## dh_perl
-## dh_link
-## dh_strip_nondeterminism
-## dh_compress
-## dh_fixperms
-## dh_missing
-## dh_dwz
-## dh_strip
-## dh_makeshlibs
-## dh_shlibdeps
-## dh_installdeb
-## dh_gencontrol
-## but you are most likely to only need to override the following:
-## dh_clean
-## dh_auto_configure
-## dh_build
-## dh_install
-
-## === End end of region ===
-
-## === overriding dh functions ===
-## by default all dh functions will run a specific command based on the build system selected by "dh $@"
-## if you have a makefile that does everything you need this is fine,
-## but most likely you have no MakeFile and you want to add your own commands
-## Note : overrides must be places above %:
-## So here's a few examples:
-
-## overriding dh_clean to make it not delete rust vendor files:
-#override_dh_clean:
-#	echo "disabled"
-
-## overriding dh_auto_configure to add custom configs:
-#override_dh_auto_configure:
-#		$(srcdir)/configure -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_DATADIR=/usr/share -DCMAKE_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu -DBUILD_PLUGIN=OFF
-
-## overriding dh_install to install files to a package:
-#override_dh_auto_configure:
-#		mkdir -p $(pkgdir1)/usr/bin
-#		cp $(srcdir)/pikman $(pkgdir1)/usr/bin/
-
-## === End end of region ===
-
-## This here will start the build:
 %:
-	dh $@
+	dh $@ --builddirectory=build/
+
+override_dh_clean:
+	dh_clean
+	rm -rf __pycache__ \
+		include \
+		scripts/__pycache__ \
+		vulkan-headers/registry/__pycache__
+	rm -f external/googletest
+
+override_dh_auto_configure:
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+	ln -s /usr/src/googletest external
+endif
+
+	dh_auto_configure --sourcedirectory=vulkan-headers --builddirectory=build-vulkan-headers/
+	dh_auto_build --sourcedirectory=vulkan-headers --builddirectory=build-vulkan-headers/
+	dh_auto_install --sourcedirectory=vulkan-headers --builddirectory=build-vulkan-headers/ --destdir=debian/tmp-vulkan-headers
+
+	dh_auto_configure -- \
+	-DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_INSTALL_LIBDIR=/usr/lib/$(DEB_HOST_MULTIARCH) \
+	-DBUILD_WSI_MIR_SUPPORT=OFF \
+	-DLOADER_CODEGEN=ON \
+	-DVulkanHeaders_DIR=debian/tmp-vulkan-headers/usr/lib/$(DEB_HOST_MULTIARCH)/cmake/VulkanHeaders/
+
+override_dh_auto_build:
+	dh_auto_build -- VulkanLoader_generated_source
+	dh_auto_build
+
+override_dh_auto_test:
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+	(cd build; tests/run_all_tests.sh || \
+		echo "NOTE: 23 tests expected to fail without a vulkan driver")
+endif
+
+override_dh_auto_install:
+	dh_auto_install --destdir=debian/tmp
+
+	cp -rp debian/tmp-vulkan-headers/usr debian/tmp/
+	rm -rf debian/tmp/usr/share/vulkan/registry/__pycache__
+	rm -rf debian/tmp/usr/share/vulkan/registry/spec_tools/__pycache__
+
+override_dh_missing:
+	dh_missing --fail-missing
+
+gentarball:
+	tar --transform 's,^,$(DEB_SOURCE)-$(DEB_VERSION_UPSTREAM)/,' \
+		--exclude 'debian' --exclude-vcs \
+		-cJf ../$(DEB_SOURCE)_$(DEB_VERSION_UPSTREAM).orig.tar.xz .
