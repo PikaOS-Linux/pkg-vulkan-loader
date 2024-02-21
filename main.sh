@@ -7,7 +7,11 @@ git clone https://github.com/KhronosGroup/Vulkan-Loader.git
 cd Vulkan-Loader
 git checkout v1.3.278
 mkdir vulkan-headers
+git clone https://github.com/KhronosGroup/Vulkan-Loader.git ./vulkan-headers
 cp -rvf ../debian ./
+cd vulkan-headers
+git checkout v1.3.278
+cd ..
 
 # Get build deps
 apt-get update
