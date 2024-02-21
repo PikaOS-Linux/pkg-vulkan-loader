@@ -6,13 +6,11 @@ DEBIAN_FRONTEND=noninteractive
 git clone https://github.com/KhronosGroup/Vulkan-Loader.git
 cd Vulkan-Loader
 git checkout v1.3.278
-cd ..
 mkdir vulkan-headers
 git clone https://github.com/KhronosGroup/Vulkan-Headers.git ./vulkan-headers
 cd vulkan-headers
 git checkout v1.3.278
 cd ..
-cd Vulkan-Loader
 cp -rvf ../debian ./
 cd ..
 
