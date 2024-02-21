@@ -14,7 +14,6 @@ git checkout v1.3.278
 cd ..
 cd Vulkan-Loader
 cp -rvf ../debian ./
-
 cd ..
 
 # Get build deps
