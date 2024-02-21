@@ -6,6 +6,7 @@ DEBIAN_FRONTEND=noninteractive
 git clone https://github.com/KhronosGroup/Vulkan-Loader.git
 cd Vulkan-Loader
 git checkout v1.3.278
+mkdir vulkan-headers
 cp -rvf ../debian ./
 
 # Get build deps
