@@ -30,7 +30,8 @@ override_dh_auto_configure:
 	-DVulkanHeaders_DIR=debian/tmp-vulkan-headers/usr/share/cmake/VulkanHeaders/
 
 override_dh_auto_build:
-	dh_auto_build -- VulkanLoader_generated_source
+	mkdir -p loader/generated
+	dh_auto_build -- loader_codegen
 	dh_auto_build
 
 override_dh_auto_install:
