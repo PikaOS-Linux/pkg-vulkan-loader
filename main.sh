@@ -17,10 +17,10 @@ git config user.email "fake@email.com"
 git config user.name "Your Mom"
 git commit -m "Refresh vulkan-headers to v1.3.278"
 cd ..
-tar --transform 's,^,vulkan-loader_1.3.278.99pikaos/,' \
-		--exclude 'debian' --exclude-vcs \
-		-cJf ../vulkan-loader_1.3.278.99pikaos.orig.tar.xz .
 cp -rvf ./debian ./Vulkan-Loader
+tar --transform 's,^,vulkan-loader_1.3.278.99pikaos/,' \
+		--exclude-vcs \
+		-cJf ../vulkan-loader_1.3.278.99pikaos.orig.tar.xz .
 
 # Get build deps
 apt-get update
