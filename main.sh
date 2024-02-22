@@ -11,6 +11,9 @@ git clone https://github.com/KhronosGroup/Vulkan-Headers.git ./vulkan-headers
 cd vulkan-headers
 git checkout v1.3.278
 cd ..
+rm -rf vulkan-headers/.git
+git add -f vulkan-headers
+git commit -m "Refresh vulkan-headers to v1.3.278"
 cp -rvf ../debian ./
 cd ..
 
