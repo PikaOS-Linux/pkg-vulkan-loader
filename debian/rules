@@ -18,7 +18,6 @@ override_dh_clean:
 		vulkan-headers/registry/__pycache__
 
 override_dh_auto_configure:
-	cd Vulkan-Loader
 	dh_auto_configure --sourcedirectory=vulkan-headers --builddirectory=build-vulkan-headers/
 	dh_auto_build --sourcedirectory=vulkan-headers --builddirectory=build-vulkan-headers/
 	dh_auto_install --sourcedirectory=vulkan-headers --builddirectory=build-vulkan-headers/ --destdir=debian/tmp-vulkan-headers
