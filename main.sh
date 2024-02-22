@@ -24,8 +24,6 @@ apt-get update
 apt-get build-dep ./ -y
 
 # Build package
-# Build package
-dpkg-source --commit p1
 LOGNAME=root dh_make --createorig -y -l -p vulkan-loader_1.3.278.99pikaos
 dpkg-buildpackage --no-sign
 
