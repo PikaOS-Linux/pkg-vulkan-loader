@@ -24,7 +24,10 @@ apt-get update
 apt-get build-dep ./ -y
 
 # Build package
-LOGNAME=root dh_make --createorig -y -l -p vulkan-loader_1.3.278.99pikaos
+tar --transform 's,^,vulkan-loader_1.3.278.99pikaos/,' \
+		--exclude 'debian' --exclude-vcs \
+		-cJf ../vulkan-loader_1.3.278.99pikaos.orig.tar.xz .
+#LOGNAME=root dh_make --createorig -y -l -p vulkan-loader_1.3.278.99pikaos
 dpkg-buildpackage --no-sign
 
 # Move the debs to output
