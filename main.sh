@@ -13,7 +13,7 @@ git checkout v1.3.278
 cd ..
 rm -rf vulkan-headers/.git
 git add -f vulkan-headers
-git config user.email fake@email.com"
+git config user.email "fake@email.com"
 git config user.name "Your Mom"
 git commit -m "Refresh vulkan-headers to v1.3.278"
 cp -rvf ../debian ./
