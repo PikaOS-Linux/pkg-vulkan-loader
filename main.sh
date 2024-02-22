@@ -11,8 +11,7 @@ cd vulkan-headers
 git clone https://github.com/KhronosGroup/Vulkan-Headers.git .
 git checkout v1.3.278
 cd ..
-cd ..
-cp -rvf ./debian ./Vulkan-Loader
+cp -rvf ../debian ./
 tar --transform 's,^,vulkan-loader_1.3.278.99pikaos/,' \
 		--exclude-vcs \
 		-cJf ../vulkan-loader_1.3.278.99pikaos.orig.tar.xz .
