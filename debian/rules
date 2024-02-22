@@ -32,7 +32,7 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	mkdir -p loader/generated
-	dh_auto_build -- loader_codegen update_deps
+	dh_auto_build -- loader_codegen
 	dh_auto_build
 
 override_dh_auto_install:
