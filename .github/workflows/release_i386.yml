@@ -33,6 +33,9 @@ jobs:
     - name: Update apt cache
       run: apt-get update
 
+    - name: Fix main perms
+      run: chmod +x ./main.sh
+
     - name: Build Package
       run: ./main32.sh
 
