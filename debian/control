@@ -42,6 +42,7 @@ Depends:
  python3:any,
  ${misc:Depends},
 Breaks: vulkan-sdk-headers, vulkan-headers
+Provides: vulkan-sdk-headers, vulkan-headers
 Replaces: vulkan-sdk-headers, vulkan-headers
 Multi-Arch: same
 Description: Vulkan loader library -- development files
