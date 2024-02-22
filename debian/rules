@@ -21,9 +21,9 @@ ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 	ln -s /usr/src/googletest external
 endif
 
-	dh_auto_configure --sourcedirectory=./vulkan-headers --builddirectory=build-vulkan-headers/
-	dh_auto_build --sourcedirectory=./vulkan-headers --builddirectory=build-vulkan-headers/
-	dh_auto_install --sourcedirectory=./vulkan-headers --builddirectory=build-vulkan-headers/ --destdir=debian/tmp-vulkan-headers
+	dh_auto_configure --sourcedirectory=vulkan-headers --builddirectory=build-vulkan-headers/
+	dh_auto_build --sourcedirectory=vulkan-headers --builddirectory=build-vulkan-headers/
+	dh_auto_install --sourcedirectory=vulkan-headers --builddirectory=build-vulkan-headers/ --destdir=debian/tmp-vulkan-headers
 
 	dh_auto_configure -- \
 	-DCMAKE_BUILD_TYPE=Release \
