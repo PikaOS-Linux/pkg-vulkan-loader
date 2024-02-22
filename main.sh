@@ -20,7 +20,7 @@ tar --transform 's,^,vulkan-loader_1.3.278.99pikaos/,' \
 apt-get update
 apt-get build-dep ./ -y
 apt install pip -y
-pip install reg
+pip install reg --break-system-packages
 # Build package
 
 #LOGNAME=root dh_make --createorig -y -l -p vulkan-loader_1.3.278.99pikaos
