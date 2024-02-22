@@ -7,15 +7,10 @@ git clone https://github.com/KhronosGroup/Vulkan-Loader.git
 cd Vulkan-Loader
 git checkout v1.3.278
 mkdir vulkan-headers
-git clone https://github.com/KhronosGroup/Vulkan-Headers.git ./vulkan-headers
 cd vulkan-headers
+git clone https://github.com/KhronosGroup/Vulkan-Headers.git .
 git checkout v1.3.278
 cd ..
-rm -rf vulkan-headers/.git
-git add -f vulkan-headers
-git config user.email "fake@email.com"
-git config user.name "Your Mom"
-git commit -m "Refresh vulkan-headers to v1.3.278"
 cd ..
 cp -rvf ./debian ./Vulkan-Loader
 tar --transform 's,^,vulkan-loader_1.3.278.99pikaos/,' \
