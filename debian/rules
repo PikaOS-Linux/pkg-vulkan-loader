@@ -26,12 +26,13 @@ override_dh_auto_configure:
 	-DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_INSTALL_LIBDIR=/usr/lib/$(DEB_HOST_MULTIARCH) \
 	-DBUILD_WSI_MIR_SUPPORT=OFF \
+        -DUPDATE_DEPS=ON \
 	-DLOADER_CODEGEN=ON \
 	-DVulkanHeaders_DIR=debian/tmp-vulkan-headers/usr/share/cmake/VulkanHeaders/
 
 override_dh_auto_build:
 	mkdir -p loader/generated
-	dh_auto_build -- loader_codegen
+	dh_auto_build -- loader_codegen update_deps
 	dh_auto_build
 
 override_dh_auto_install:
