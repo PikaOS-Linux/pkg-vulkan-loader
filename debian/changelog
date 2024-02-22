@@ -1,3 +1,9 @@
+vulkan-loader (1.3.278.99pikaos-2) pikauwu; urgency=medium
+
+  * New upstream release.
+
+ -- ferrreo <harderthanfire@gmail.com>  Wed, 21 Feb 2024 11:39:49 +0300
+
 vulkan-loader (1.3.278.99pikaos-1) pikauwu; urgency=medium
 
   * New upstream release.
