@@ -22,7 +22,7 @@ override_dh_auto_configure:
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 	ln -s /usr/src/googletest external
 endif
-
+	ls /__w/pkg-vulkan-loader/pkg-vulkan-loader
 	dh_auto_configure --sourcedirectory=vulkan-headers --builddirectory=build-vulkan-headers/
 	dh_auto_build --sourcedirectory=vulkan-headers --builddirectory=build-vulkan-headers/
 	dh_auto_install --sourcedirectory=vulkan-headers --builddirectory=build-vulkan-headers/ --destdir=debian/tmp-vulkan-headers
