@@ -19,6 +19,7 @@ tar --transform 's,^,vulkan-loader_1.3.278.99pikaos/,' \
 # Get build deps
 apt-get update
 apt-get build-dep ./ -y
+apt install pip -y
 pip install reg
 # Build package
 
