@@ -16,17 +16,18 @@ git add -f vulkan-headers
 git config user.email "fake@email.com"
 git config user.name "Your Mom"
 git commit -m "Refresh vulkan-headers to v1.3.278"
-cp -rvf ../debian ./
 cd ..
+tar --transform 's,^,vulkan-loader_1.3.278.99pikaos/,' \
+		--exclude 'debian' --exclude-vcs \
+		-cJf ../vulkan-loader_1.3.278.99pikaos.orig.tar.xz .
+cp -rvf ./debian ./Vulkan-Loader
 
 # Get build deps
 apt-get update
 apt-get build-dep ./ -y
 
 # Build package
-tar --transform 's,^,vulkan-loader_1.3.278.99pikaos/,' \
-		--exclude 'debian' --exclude-vcs \
-		-cJf ../vulkan-loader_1.3.278.99pikaos.orig.tar.xz .
+
 #LOGNAME=root dh_make --createorig -y -l -p vulkan-loader_1.3.278.99pikaos
 dpkg-buildpackage --no-sign
 
